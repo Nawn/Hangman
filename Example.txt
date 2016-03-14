@@ -1,0 +1,24 @@
+"Hello, thanks for playing Hangman!\nTo load last save, type: load\nTo continue, press enter\nTo exit, type: 'exit'"
+
+Exit the game if exit.
+
+if they choose to continue:
+	Load the dictionary, and assign the answer to a random word that is >5 char, but <12 char.
+	"Answer selected!"
+
+if they choose to load:
+	Load the latest save file, and then continue from where the latest save left off.
+
+until temp_answer.solved? || guesses_left == 0 do
+	Display the number of incorrect guesses left, and (for example, "P_og_mm_ng"), as well as an array of guessed characters.
+
+	if input is 'save', then save the current state of guesses left, set answer, and unlocked letters so far
+
+	if input is 'exit', exit the game
+	
+	enter character. If the character matches letter of answer_word, then have the display show that. 
+	
+	else, guesses_left -= 1, and add the input character to the Array of incorrect guessed characters
+end
+
+then print "You win!" || "You lose!" Depending on Whether they guessed the word, or ran out of guesses.
