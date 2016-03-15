@@ -26,7 +26,7 @@ class Hangman
 		puts "Progress: #{@solved.join(" ")}" #Join the array with Spaces, so it's readable
 	end
 
-	def test;	end
+	#def test;	end
 
 	def turn(input_char)
 		#Raise error if the input is not valid
@@ -45,8 +45,12 @@ class Hangman
 		end
 	end
 
-	def over?
-		!@solved.include?("_") #If there are any underscores left, the game is not done.(Return False)
+	def over? #Returns true if play ran out of turns(Lost), or won
+		@guesses_left <= 0 || won?
+	end
+
+	def won?
+		!@solved.include?("_") #If there are any underscores left, the word is not complete.
 	end
 
 	private

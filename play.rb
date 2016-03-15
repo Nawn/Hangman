@@ -8,15 +8,15 @@ exit if response.downcase == "exit" || response.downcase == "load"
 
 game = Hangman.new
 
-until game.guesses_left <= 0 || game.over?
+until game.over?
   begin
     game.display
-    game.turn(gets.chomp)
+    game.turn(gets.chomp) #Prompts player for input
   rescue StandardError => e
     puts "\n\nError: #{e}"
     retry
   end
 end
 
-puts "You Guessed it! The word was '#{game.answer}'" if game.over?
-puts "You ran out of guesses! The word was '#{game.answer}'" if game.guesses_left <= 0
+#put (Depending on whether the player won or not), You won! if they did win, You Ran out of guesses! if they did not
+puts game.won? ? "You Guessed it! The word was '#{game.answer}'" : "You ran out of guesses! The word was '#{game.answer}'"
