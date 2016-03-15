@@ -1,3 +1,4 @@
+require 'yaml'
 class Hangman
 	attr_reader :guesses_left, :answer
 	#Class Method, to pick a random word
@@ -9,6 +10,16 @@ class Hangman
 			end
 		end
 		potential_words.sample.chomp #Return a random word, and get rid of the '\n' at the end.
+	end
+	#Class method, returns Hangman Object
+	def self.load
+		if File.exist? "save_file.txt"
+			File.open("save_file.txt", "r") do |file|
+				YAML::load(file.read) #Open the file, and return the Hangman object
+			end
+		else
+			puts "File does not exist!\nContinuing with new game"
+		end
 	end
 
 	#.new Method
@@ -26,8 +37,6 @@ class Hangman
 		puts "Progress: #{@solved.join(" ")}" #Join the array with Spaces, so it's readable
 	end
 
-	#def test;	end
-
 	def turn(input_char)
 		#Raise error if the input is not valid
 		raise(StandardError, "1 Letter at a time!!") unless input_char.length == 1 || input_char.downcase == "save" || input_char.downcase == "exit"
@@ -38,7 +47,9 @@ class Hangman
 				@solved[index] = input_char if letter == input_char #And set the letter in the solved array
 			end
 		elsif input_char.downcase == "save" #save if they type "save"
-			puts "\n\nNot implemented yet!" 
+			puts "Saving game..."
+			save() #Run the save method
+			puts "Saved game!" 
 		else #if they're not exitting, saving, or putting a correct letter
 			@incorrect_letters << input_char #Add the letter they tried to an array of incorrect letters
 			@guesses_left -= 1 #Then subtract an available guess
@@ -51,6 +62,13 @@ class Hangman
 
 	def won?
 		!@solved.include?("_") #If there are any underscores left, the word is not complete.
+	end
+
+	def save
+		info = YAML::dump(self)
+		File.open("save_file.txt", "w") do |file|
+			file.write(info) #open/create file and write current object info.
+		end
 	end
 
 	private
